@@ -1,0 +1,6 @@
+world.json
+  Derived from Natural Earth "Admin 0 - Countries", 1:10m, India point-of-view edition
+  (ne_10m_admin_0_countries_ind). Natural Earth data is in the public domain (naturalearthdata.com).
+  Simplified (0.01 deg, then points closer than ~0.04 deg dropped). Schematic depiction, not a legal
+  boundary or survey product. If your organisation mandates a Survey of India boundary file, replace
+  India's entry with it (same format: {"name","iso3","label":[lon,lat],"polys":[[[ [lon,lat], ... ]]]}).

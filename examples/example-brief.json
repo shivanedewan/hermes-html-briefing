@@ -1,0 +1,89 @@
+{
+  "title": "India in Space: From Thumba to the Lunar South Pole",
+  "eyebrow": "Demonstration briefing · Hermes HTML",
+  "subtitle": "Six decades of the Indian space programme in one page: what it has done, how it launches, and what comes next.",
+  "summary": "A design demonstration built from widely published public-record facts. It shows how a Hermes research result becomes a readable briefing; it is not a BIGDATA research output.",
+  "date": "November 2026",
+  "author": "Prepared with Hermes",
+  "classification": "Demo · not for operational use",
+  "theme": "editorial",
+  "cover": {"map": {"focus": ["India"]}},
+  "sections": [
+    {"type": "bluf", "points": [
+      "India has moved from launching borrowed sounding rockets in 1963 to soft-landing near the Moon's south pole in 2023.",
+      "Three domestic launch vehicles now cover small, medium and heavy payloads, so most national missions launch from Indian soil.",
+      "The next phase is human spaceflight (Gaganyaan) and a national space station, alongside a fast-growing private launch sector."
+    ], "sources": ["isro", "nssdc"]},
+    {"type": "stats", "items": [
+      {"value": "1969", "label": "ISRO founded", "note": "Successor to INCOSPAR (1962)", "sources": ["isro"]},
+      {"value": "4th", "label": "Country to soft-land on the Moon", "note": "Chandrayaan-3, 23 August 2023", "sources": ["isro"]},
+      {"value": "1st", "label": "Asian nation in Mars orbit", "note": "Mars Orbiter Mission, September 2014", "sources": ["nssdc"]},
+      {"value": "104", "label": "Satellites on one launch", "note": "PSLV-C37, February 2017", "sources": ["isro"]}
+    ]},
+    {"type": "chapter", "number": "01", "title": "From sounding rockets to the Moon",
+     "lede": "The programme grew in deliberate steps: first rockets, then satellites, then the vehicles to launch them, then deep space."},
+    {"type": "text", "title": "Building capability one step at a time",
+     "body": "India's first rocket launch, a small sounding rocket, lifted off from Thumba near Thiruvananthapuram in November 1963. The site was chosen because it lies close to the magnetic equator, which made it valuable for upper-atmosphere research.\n\nThe first Indian satellite, Aryabhata, followed in 1975 on a Soviet launcher. Five years later the SLV-3 rocket placed the Rohini satellite in orbit, making India a nation able to launch its own satellites.\n\nThe decades since have been spent on reliable launchers and application satellites for communications, weather and Earth observation, before turning outward to the Moon, Mars and the Sun.",
+     "pullquote": "Each step was built on the one before: rockets, then satellites, then launchers, then deep space.",
+     "sources": ["isro"]},
+    {"type": "timeline", "title": "Milestones", "intro": "Selected missions, in order. Dashed markers are planned, not yet flown.", "events": [
+      {"date": "Nov 1963", "title": "First rocket launch from Thumba", "body": "A sounding rocket opens India's launch history.", "sources": ["isro"]},
+      {"date": "Apr 1975", "title": "Aryabhata", "body": "India's first satellite, launched by the Soviet Union.", "sources": ["nssdc"]},
+      {"date": "Jul 1980", "title": "SLV-3 orbits Rohini", "body": "First satellite placed in orbit by an Indian rocket.", "sources": ["isro"]},
+      {"date": "Oct 2008", "title": "Chandrayaan-1", "body": "First lunar mission; its instruments contributed to the detection of water molecules on the Moon.", "sources": ["isro"]},
+      {"date": "Sep 2014", "title": "Mars Orbiter Mission reaches Mars", "body": "Orbit achieved on the first attempt.", "sources": ["nssdc"]},
+      {"date": "Feb 2017", "title": "PSLV-C37: 104 satellites", "body": "A record number of satellites deployed by one rocket at the time.", "sources": ["isro"]},
+      {"date": "Aug 2023", "title": "Chandrayaan-3 lands", "tag": "Landmark", "status": "confirmed", "body": "First soft landing near the lunar south pole.", "sources": ["isro"]},
+      {"date": "Sep 2023", "title": "Aditya-L1 launched", "body": "Solar observatory sent towards the Sun-Earth L1 point.", "sources": ["isro"]},
+      {"date": "Jan 2025", "title": "SpaDeX docking", "body": "Two satellites dock in orbit, a key step for a future station.", "sources": ["isro"]},
+      {"date": "Planned", "title": "Gaganyaan crewed flight", "status": "planned", "tag": "Planned", "body": "India's first human spaceflight on a domestic rocket.", "sources": ["isro"]}
+    ]},
+    {"type": "map", "title": "Where the programme works", "intro": "Main centres named in public ISRO material. Positions are approximate.",
+     "focus": ["India"], "view": ["Sri Lanka"], "markers": [
+      {"name": "Sriharikota", "lat": 13.72, "lon": 80.23, "note": "Satish Dhawan Space Centre, the main launch site on the east coast."},
+      {"name": "Bengaluru", "lat": 12.97, "lon": 77.59, "note": "ISRO headquarters and the satellite centre."},
+      {"name": "Thiruvananthapuram", "lat": 8.52, "lon": 76.94, "note": "Vikram Sarabhai Space Centre: launch vehicle design; Thumba site."},
+      {"name": "Ahmedabad", "lat": 23.03, "lon": 72.57, "note": "Space Applications Centre: payloads and applications."}
+    ]},
+    {"type": "chapter", "number": "02", "title": "How India launches",
+     "lede": "Three operational rockets cover most national needs; the heaviest also carries the human spaceflight programme."},
+    {"type": "compare", "title": "The three operational launch vehicles", "sides": [
+      {"name": "PSLV", "icon": "rocket", "stance": "The workhorse", "points": ["Optimised for polar and sun-synchronous orbits", "Carried Chandrayaan-1 and the Mars Orbiter Mission", "Long record of successful flights"]},
+      {"name": "GSLV Mk II", "icon": "rocket", "stance": "Indigenous cryogenic stage", "points": ["Places communication and navigation satellites in transfer orbit", "Uses an Indian-built cryogenic upper stage", "Medium-lift role"]},
+      {"name": "LVM3", "icon": "rocket", "stance": "Heavy lift", "points": ["Launched Chandrayaan-2 and Chandrayaan-3", "Flies commercial constellation batches", "A human-rated version is planned for Gaganyaan"]}
+    ], "sources": ["isro"]},
+    {"type": "bars", "title": "Approximate payload to geosynchronous transfer orbit", "intro": "Indicative published capability; actual figures depend on the mission and orbit.", "unit": "kg", "items": [
+      {"label": "PSLV", "value": 1425, "note": "Sub-GTO"},
+      {"label": "GSLV Mk II", "value": 2250},
+      {"label": "LVM3", "value": 4000}
+    ], "sources": ["isro"]},
+    {"type": "chapter", "number": "03", "title": "What comes next"},
+    {"type": "list", "title": "Four things to watch", "items": [
+      {"title": "Human spaceflight", "body": "Gaganyaan aims to fly Indian astronauts on an Indian rocket; uncrewed test flights come first.", "sources": ["isro"]},
+      {"title": "A national space station", "body": "Plans for a Bharatiya Antariksh Station build on the SpaDeX docking demonstration.", "sources": ["isro"]},
+      {"title": "Lunar sample return", "body": "Chandrayaan-4 is planned to bring lunar samples back to Earth.", "sources": ["isro"]},
+      {"title": "Private launchers", "body": "Indian start-ups have begun flying their own rockets since the sector opened to private firms.", "sources": ["isro"]}
+    ]},
+    {"type": "callout", "tone": "assessment", "title": "Assessment",
+     "body": "The programme's strength is steady, low-cost progress: each mission reuses proven hardware and adds one new capability. The main risks to the next phase are schedule, since human spaceflight carries far stricter safety demands, and the pace at which industry can take over routine launches.",
+     "sources": ["isro"]},
+    {"type": "table", "title": "Mission register", "caption": "Missions named in this briefing", "columns": ["Mission", "Year", "Destination", "Outcome"], "rows": [
+      ["Aryabhata", "1975", "Earth orbit", "First Indian satellite"],
+      ["Chandrayaan-1", "2008", "Moon (orbit)", "Orbiter and impact probe"],
+      ["Mars Orbiter Mission", "2013", "Mars (orbit)", "Orbit achieved 2014"],
+      ["Chandrayaan-2", "2019", "Moon", "Orbiter working; lander lost"],
+      ["Chandrayaan-3", "2023", "Moon (surface)", "Soft landing near south pole"],
+      ["Aditya-L1", "2023", "Sun-Earth L1", "Solar observatory"],
+      ["SpaDeX", "2024", "Earth orbit", "Docking demonstrated 2025"]
+     ], "row_sources": [["nssdc"], ["isro"], ["nssdc"], ["isro"], ["isro"], ["isro"], ["isro"]]}
+  ],
+  "limitations": [
+    "Demonstration content compiled from widely published public-record facts, not from a BIGDATA search; verify before any operational use.",
+    "Payload figures are indicative published capabilities, rounded.",
+    "Map positions are approximate; the base map is schematic and not an official boundary depiction."
+  ],
+  "sources": [
+    {"id": "isro", "label": "Indian Space Research Organisation: mission pages", "detail": "Official mission and launch vehicle descriptions.", "url": "https://www.isro.gov.in"},
+    {"id": "nssdc", "label": "NASA Space Science Data Coordinated Archive", "detail": "Independent mission records for Aryabhata and the Mars Orbiter Mission.", "url": "https://nssdc.gsfc.nasa.gov"}
+  ]
+}
