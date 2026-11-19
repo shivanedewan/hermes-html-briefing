@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spreadsheet preview</title>
+<link rel="stylesheet" href="viewer.css">
+<style>
+.scroll{background:#fff}
+table{border-collapse:separate;border-spacing:0;font-size:13px;min-width:100%}
+th,td{border-right:1px solid #e6e4de;border-bottom:1px solid #e6e4de;padding:6px 10px;white-space:nowrap;max-width:420px;overflow:hidden;text-overflow:ellipsis;text-align:left}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+thead th{position:sticky;top:0;background:#f3f2ee;color:var(--muted);font-weight:500;text-align:center;z-index:2;font-size:12px}
+tbody tr:first-child td{font-weight:650;background:#fafaf8;position:sticky;top:29px;z-index:1}
+th.rn,td.rn{position:sticky;left:0;background:#f3f2ee;color:var(--muted);text-align:center;min-width:44px;font-size:12px;z-index:1}
+thead th.rn{z-index:3}tbody tr:first-child td.rn{z-index:2}
+tbody tr:hover td{background:#fbf6e9}td.f{color:#2f5bd3;font-family:Consolas,monospace}
+.sheets{flex:none;display:flex;gap:2px;padding:0 8px;background:#f3f2ee;border-top:1px solid var(--rule);overflow-x:auto}
+.sheets button{font:inherit;font-size:13px;border:0;background:none;padding:8px 14px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent}
+.sheets button.on{background:#fff;color:#217346;font-weight:650;border-bottom-color:#217346}
+.note{color:#9a6700;font-size:12.5px}
+</style>
+<script type="module" src="sheet.js"></script>
+</head><body>
+<div class="vbar"><span class="lbl" id="info">Spreadsheet</span><span class="sp"></span>
+  <input class="find" id="filter" type="search" placeholder="Filter rows" aria-label="Filter rows"></div>
+<div class="vmain" id="main"><div class="scroll"><table id="grid"></table></div></div>
+<div class="sheets" id="sheets"></div>
+</body></html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hermes · file preview panel (demo)</title>
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/app.js"></script>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand"><span class="logo">H</span><strong>Hermes File Workspace</strong><span class="tag">Preview panel · demo</span></div>
+    <div class="top-actions">
+      <label class="btn ghost" title="Preview one of your own files">
+        <input type="file" id="upload" hidden multiple>
+        <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+        Preview your own file
+      </label>
+    </div>
+  </header>
+
+  <div class="split" id="split">
+    <main class="chat" id="chat">
+      <div class="thread">
+        <div class="msg user">
+          <div class="bubble">Research India's space programme and give me a briefing page, a short deck, a note for the file and the mission data.</div>
+        </div>
+
+        <div class="msg hermes">
+          <div class="avatar">H</div>
+          <div class="content">
+            <details class="steps">
+              <summary><span class="dot ok"></span>Researched 12 sources · read 9 passages · built 4 deliverables</summary>
+              <ol>
+                <li>Searched the archive for mission history, launch vehicles and plans</li>
+                <li>Read and cross-checked dates for the timeline</li>
+                <li>Wrote the briefing, the deck, the note and the data sheet</li>
+                <li>Rendered each file and checked it before handing it over</li>
+              </ol>
+            </details>
+            <p>Here is the package. The <b>briefing page</b> is the main read; the <b>deck</b> covers the same ground in six slides; the <b>note</b> is for the file; the <b>workbook</b> holds the mission register.</p>
+            <p class="muted">Click any file to open it beside the chat. I also revised the briefing after your comments, so it has two versions.</p>
+            <div class="cards" id="cards"></div>
+          </div>
+        </div>
+
+        <div class="msg hermes">
+          <div class="avatar">H</div>
+          <div class="content">
+            <p class="muted small">All files in this workspace, including anything you add with <b>Preview your own file</b> or by dropping it here:</p>
+            <div class="filelist" id="filelist"></div>
+          </div>
+        </div>
+      </div>
+      <div class="composer" aria-hidden="true">
+        <div class="fake-input">Ask Hermes to change a file — e.g. "make slide 3 a map"</div>
+        <button class="btn primary" disabled>Send</button>
+      </div>
+      <div class="drop-hint" id="drop-hint">Drop files to preview them</div>
+    </main>
+
+    <div class="gutter" id="gutter" role="separator" aria-orientation="vertical" aria-label="Resize preview panel" tabindex="0"></div>
+
+    <aside class="panel" id="panel" aria-label="File preview" hidden>
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div class="toolbar">
+        <div class="file-title">
+          <span class="kind-icon" id="kind-icon"></span>
+          <div><div class="fname" id="fname"></div><div class="fmeta" id="fmeta"></div></div>
+        </div>
+        <div class="tools">
+          <select id="version" title="Version" hidden></select>
+          <div class="seg" id="modes" hidden></div>
+          <a class="icon-btn" id="download" title="Download" href="#"><svg viewBox="0 0 24 24"><path d="M12 4v12m0 0-4-4m4 4 4-4M4 20h16"/></svg></a>
+          <a class="icon-btn" id="newwin" title="Open in a new window" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24"><path d="M14 4h6v6m0-6-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+          <button class="icon-btn" id="full" title="Full screen (F)"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+          <button class="icon-btn" id="close" title="Close panel (Esc)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        </div>
+      </div>
+      <div class="stage" id="stage"></div>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

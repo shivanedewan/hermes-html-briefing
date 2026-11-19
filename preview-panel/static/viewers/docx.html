@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Word preview</title>
+<link rel="stylesheet" href="viewer.css">
+<style>
+.scroll{background:var(--bg)}
+#doc{transform-origin:top center;padding:18px 0}
+#doc .docx-wrapper{background:transparent!important;padding:0!important}
+#doc .docx-wrapper>section.docx{box-shadow:0 1px 3px #0002,0 6px 20px #0000001a!important;margin:0 auto 18px!important}
+</style>
+<script src="../vendor/jszip/jszip.min.js"></script>
+<script src="../vendor/docx-preview/docx-preview.min.js"></script>
+<script type="module" src="docx.js"></script>
+</head><body>
+<div class="vbar">
+  <span class="lbl" id="pages">Word document</span><span class="sp"></span>
+  <button class="vb" id="zout" title="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+  <span class="lbl" id="zl">100%</span>
+  <button class="vb" id="zin" title="Zoom in"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+  <button class="vb" id="fit" title="Fit width">Fit width</button>
+</div>
+<div class="vmain" id="main"><div class="scroll" id="scroll"><div id="doc"></div></div></div>
+</body></html>

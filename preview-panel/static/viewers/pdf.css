@@ -1,0 +1,10 @@
+.thumbs{flex:none;width:178px;overflow:auto;background:#e3e1da;border-right:1px solid var(--rule);padding:12px 14px;display:none}
+.show-thumbs .thumbs{display:block}
+.thumb{display:block;width:100%;margin:0 0 14px;padding:0;border:0;background:none;cursor:pointer;text-align:center;color:var(--muted);font:12px "Segoe UI",sans-serif}
+.thumb canvas,.thumb .ph{display:block;width:100%;background:#fff;box-shadow:0 1px 3px #0003;border:2px solid transparent;border-radius:3px;margin-bottom:5px}
+.thumb.on canvas,.thumb.on .ph{border-color:var(--accent)}.thumb.on{color:var(--ink);font-weight:600}
+.docwrap{flex:1;min-width:0;position:relative}
+#viewerContainer{position:absolute;inset:0;overflow:auto;background:var(--bg)}
+.pdfViewer{padding:14px 0}.pdfViewer .page{margin:0 auto 14px;border:0;box-shadow:0 1px 3px #0002,0 6px 20px #0000001a}
+.slides #viewerContainer{background:#2b2b2b}.slides .thumbs{background:#202020;border-right-color:#000}.slides .thumb{color:#aaa}.slides .thumb.on{color:#fff}
+:fullscreen #viewerContainer{background:#000}:fullscreen .pdfViewer .page{box-shadow:none;margin-bottom:0}

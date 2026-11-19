@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image preview</title><link rel="stylesheet" href="viewer.css">
+<style>
+.scroll{display:grid;place-items:center;background:repeating-conic-gradient(#e7e5df 0 25%,#f4f3ef 0 50%) 0 0/22px 22px;padding:20px}
+img{max-width:100%;max-height:100%;box-shadow:0 2px 12px #0002;cursor:zoom-in;background:#fff}
+.actual img{max-width:none;max-height:none;cursor:zoom-out}.actual .scroll{place-items:start}
+</style>
+<script type="module" src="image.js"></script></head><body>
+<div class="vbar"><span class="lbl" id="info">Image</span><span class="sp"></span><button class="vb" id="toggle">Actual size</button></div>
+<div class="vmain" id="main"><div class="scroll"><img id="img" alt=""></div></div>
+</body></html>
