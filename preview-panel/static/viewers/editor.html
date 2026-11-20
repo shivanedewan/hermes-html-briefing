@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edit</title>
+<link rel="stylesheet" href="viewer.css">
+<link rel="stylesheet" href="editor.css">
+<script src="../vendor/marked/marked.umd.js"></script>
+<script src="../vendor/dompurify/purify.min.js"></script>
+<script type="module" src="editor.js"></script>
+</head><body>
+<div class="vbar">
+  <button class="vb primary" id="save" disabled title="Save as a new version (Ctrl+S)">Save as new version</button>
+  <button class="vb" id="revert" disabled title="Undo all edits">Revert</button>
+  <button class="vb" id="cancel" title="Stop editing">Cancel</button>
+  <span class="lbl" id="status">No changes</span>
+  <span class="sp"></span>
+  <span class="lbl" id="pos"></span>
+  <button class="vb" id="preview" hidden title="Show the formatted result beside the text">Preview</button>
+</div>
+<div class="vmain" id="main">
+  <div class="edwrap" id="edwrap">
+    <textarea id="ed" spellcheck="true" aria-label="File text"></textarea>
+    <article class="pv" id="pv" hidden></article>
+  </div>
+</div>
+</body></html>

@@ -6,7 +6,7 @@ README, tests and screenshots, and each can be approved, run and integrated on i
 | Folder | Project | What it does | Start here |
 |---|---|---|---|
 | [`html-briefing/`](html-briefing/) | **Hermes HTML Briefing** | Turns research results into a designed, self-contained, offline HTML briefing page (cover, key points, stats, timeline, map, comparison, charts, sources). Replaces the single current report template. | [`html-briefing/README.md`](html-briefing/README.md) · `demo/before-after.png` |
-| [`preview-panel/`](preview-panel/) | **Hermes Preview Panel** | A Claude-style side panel in the Hermes File Workspace that shows files beside the chat: HTML, PDF, Word, PowerPoint, Excel/CSV, images, Markdown. Replaces the Download-only file list. | [`preview-panel/README.md`](preview-panel/README.md) · `docs/screenshots/` |
+| [`preview-panel/`](preview-panel/) | **Hermes Preview Panel** | A Claude-style side panel in the Hermes File Workspace that shows files beside the chat: HTML, PDF, Word, PowerPoint, Excel/CSV, images, Markdown. New files open by themselves as Hermes writes them; Markdown, text and CSV can be edited and saved as new versions. Replaces the Download-only file list. | [`preview-panel/README.md`](preview-panel/README.md) · `docs/screenshots/` |
 
 They work well together (a briefing made by the first opens in the panel of the second) but
 neither needs the other: the panel shows any file, and the briefing renderer produces a plain

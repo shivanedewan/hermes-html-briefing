@@ -1,0 +1,12 @@
+.edwrap{position:absolute;inset:0;display:grid;grid-template-columns:1fr;background:#fff}
+.edwrap.split{grid-template-columns:1fr 1fr}
+#ed{width:100%;height:100%;border:0;outline:0;resize:none;padding:22px 26px;font:13.5px/1.65 Consolas,"Cascadia Mono",monospace;color:#24231f;background:#fffefb;tab-size:2}
+.pv{overflow:auto;padding:26px 30px;border-left:1px solid var(--rule);font-size:15px;line-height:1.7}
+.pv h1{font-size:1.8em;line-height:1.2}.pv h2{font-size:1.35em;border-bottom:1px solid var(--rule);padding-bottom:.2em}
+.pv table{border-collapse:collapse}.pv th,.pv td{border:1px solid var(--rule);padding:5px 10px}
+.pv blockquote{margin:1em 0;padding:.3em 1em;border-left:4px solid var(--accent);background:#fbf3ef}
+.pv code{background:var(--soft);padding:.1em .3em;border-radius:4px}
+.vb.primary{background:var(--ink);color:#fff;font-weight:600;padding:0 12px}.vb.primary:hover{background:#000;color:#fff}
+.vb:disabled{opacity:.4;cursor:default}.vb.primary:disabled{background:#8a8882}
+#status.dirty{color:var(--accent);font-weight:600}#status.err{color:#b42318;font-weight:600}
+@media (max-width:760px){.edwrap.split{grid-template-columns:1fr;grid-template-rows:1fr 1fr}.pv{border-left:0;border-top:1px solid var(--rule)}}

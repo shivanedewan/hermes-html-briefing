@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Changes</title><link rel="stylesheet" href="viewer.css">
+<style>
+.scroll{background:#fff}
+.d{font:12.5px/1.6 Consolas,"Cascadia Mono",monospace;min-width:max-content}
+.r{display:grid;grid-template-columns:48px 48px 22px 1fr;white-space:pre-wrap;word-break:break-word}
+.r .n{color:#a19f98;text-align:right;padding-right:8px;user-select:none;background:#faf9f6}
+.r .m{text-align:center;user-select:none;color:#888}
+.add{background:#e9f7ef}.add .m{color:#1a7f37}.add .n{background:#d7f0e0}
+.del{background:#fdecec}.del .m{color:#b42318}.del .n{background:#f8d9d9}
+.gap{background:#f3f2ee;color:#8a8882;padding:3px 10px;font-style:italic;display:block}
+.plus{color:#1a7f37;font-weight:700}.minus{color:#b42318;font-weight:700}
+</style>
+<script type="module" src="diff.js"></script></head><body>
+<div class="vbar"><span class="lbl" id="info">Changes</span><span class="sp"></span><button class="vb" id="all">Show whole file</button></div>
+<div class="vmain" id="main"><div class="scroll"><div class="d" id="out"></div></div></div>
+</body></html>

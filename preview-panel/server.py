@@ -30,10 +30,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
 
-RELEASE = "hermes-preview-panel 1.0"
+RELEASE = "hermes-preview-panel 1.1"
 HERE = Path(__file__).resolve().parent
 STATIC = HERE / "static"
 MAX_UPLOAD = 50 * 1024 * 1024
+MAX_TEXT_SAVE = 5 * 1024 * 1024
 CONVERT_TIMEOUT = 120
 SHEET_ROWS, SHEET_COLS, SHEET_MAX = 2000, 60, 30
 
@@ -44,6 +45,8 @@ KINDS = {
     ".jpeg": "image", ".gif": "image", ".webp": "image", ".svg": "image", ".md": "markdown",
     ".txt": "text", ".json": "text", ".log": "text", ".py": "text", ".xml": "text",
 }
+# files that can be edited in the panel (saved as a new version, never overwritten)
+EDITABLE = {".md", ".txt", ".json", ".csv", ".tsv", ".log", ".xml", ".py"}
 OFFICE_TO_PDF = {".docx", ".doc", ".odt", ".rtf", ".pptx", ".ppt", ".odp", ".xlsx", ".xlsm"}
 mimetypes.add_type("text/javascript", ".mjs")
 mimetypes.add_type("application/wasm", ".wasm")
@@ -60,8 +63,11 @@ _convert_lock = threading.Lock()
 
 
 class Workspace:
-    def __init__(self, folder: Path, data: Path):
+    def __init__(self, folder: Path, data: Path, writable: bool = True):
         self.folder = folder.resolve()
+        self.writable = writable
+        self.writing = set()          # refs Hermes is still writing (demo simulator)
+        self._lock = threading.Lock()
         self.uploads = (data / "uploads").resolve()
         self.cache = (data / "cache").resolve()
         self.uploads.mkdir(parents=True, exist_ok=True)
@@ -90,7 +96,9 @@ class Workspace:
                 st = p.stat()
                 stem = re.sub(r"[-_ ]v\d+$", "", p.stem, flags=re.I)
                 m = re.search(r"[-_ ]v(\d+)$", p.stem, flags=re.I)
-                files.append({"ref": f"{root_name}/{p.name}", "name": p.name, "root": root_name,
+                ref = f"{root_name}/{p.name}"
+                files.append({"ref": ref, "name": p.name, "root": root_name, "writing": ref in self.writing,
+                              "editable": self.writable and p.suffix.lower() in EDITABLE,
                               "kind": KINDS[p.suffix.lower()], "ext": p.suffix.lower().lstrip("."),
                               "size": st.st_size, "mtime": st.st_mtime,
                               "group": f"{root_name}/{stem}{p.suffix.lower()}", "version": int(m.group(1)) if m else 1})
@@ -154,6 +162,56 @@ class Workspace:
         values.close(); formulas.close()
         return {"sheets": sheets, "more_sheets": len(values.sheetnames) > SHEET_MAX}
 
+    def next_version(self, path: Path) -> Path:
+        """report.md / report-v2.md -> the next free report-vN.md in the same folder."""
+        stem = re.sub(r"[-_ ]v\d+$", "", path.stem, flags=re.I)
+        top = 1
+        for q in path.parent.iterdir():
+            if q.suffix.lower() == path.suffix.lower():
+                m = re.fullmatch(re.escape(stem) + r"(?:[-_ ]v(\d+))?", q.stem, flags=re.I)
+                if m:
+                    top = max(top, int(m.group(1) or 1))
+        return path.parent / f"{stem}-v{top + 1}{path.suffix}"
+
+    def save_text(self, ref: str, text: str) -> str:
+        if not self.writable:
+            raise PermissionError("This workspace is read-only")
+        path = self.resolve(ref)
+        if path.suffix.lower() not in EDITABLE:
+            raise ValueError("This file type can't be edited in the panel; ask Hermes to change it")
+        data = text.encode("utf-8")
+        if len(data) > MAX_TEXT_SAVE:
+            raise ValueError("Text larger than 5 MB can't be saved from the panel")
+        with self._lock:
+            target = self.next_version(path)
+            with open(target, "xb") as f:        # never overwrite
+                f.write(data)
+        return f"{ref.split('/', 1)[0]}/{target.name}"
+
+    def simulate(self) -> str:
+        """Demo only: write research.md (or its next version) piece by piece, as Hermes would."""
+        if not self.writable:
+            raise PermissionError("This workspace is read-only")
+        base = self.folder / "research.md"
+        with self._lock:
+            target = base if not base.exists() else self.next_version(base)
+            target.write_text("", "utf-8")
+        ref = f"output/{target.name}"
+        version = 1 if target == base else int(re.search(r"v(\d+)$", target.stem).group(1))
+        chunks = _research_chunks(version)
+        self.writing.add(ref)
+
+        def run():
+            try:
+                for chunk in chunks:
+                    time.sleep(0.7)
+                    with open(target, "a", encoding="utf-8") as f:
+                        f.write(chunk)
+            finally:
+                self.writing.discard(ref)
+        threading.Thread(target=run, daemon=True).start()
+        return ref
+
     def save_upload(self, name: str, body: bytes) -> str:
         name = re.sub(r"[^\w.\- ()]+", "_", Path(name).name).strip(" .")[:120]
         if not name or Path(name).suffix.lower() not in KINDS:
@@ -164,6 +222,27 @@ class Workspace:
             target = self.uploads / f"{stem} ({n}){suffix}"; n += 1
         target.write_bytes(body)
         return f"uploads/{target.name}"
+
+
+def _research_chunks(version):
+    stamp = time.strftime("%d %b %Y, %H:%M")
+    head = [f"# Research notes: launch infrastructure\n\n*Written by Hermes · {stamp} · version {version} · demo content*\n\n"]
+    body = [
+        "## Question\n\nWhere does India launch from today, and what is being added?\n\n",
+        "## Findings\n\n",
+        "- **Sriharikota** (Satish Dhawan Space Centre) is the main launch site, on the east coast.\n",
+        "- It has two launch pads used by PSLV, GSLV and LVM3.\n",
+        "- A second spaceport for small launchers is being built at **Kulasekarapattinam**, Tamil Nadu.\n\n",
+        "## Why the east coast\n\nLaunching eastward over the sea adds the Earth's rotation to the rocket's speed "
+        "and keeps spent stages away from people.\n\n",
+        "## Open questions\n\n1. When will the second spaceport fly its first mission?\n"
+        "2. How many launches a year can Sriharikota support?\n\n",
+    ]
+    if version > 1:
+        body.insert(4, "- **New in this version:** a third launch pad has been approved for heavier vehicles.\n")
+        body.append("> Revised after review: added the third launch pad.\n\n")
+    body.append("| Site | Role |\n|---|---|\n| Sriharikota | All orbital launches today |\n| Kulasekarapattinam | Small launchers (planned) |\n")
+    return head + body
 
 
 def _cell(v, f):
@@ -241,7 +320,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self._error(404, "not found")
                 return self._file(target)
             if p == "/api/files":
-                return self._json({"files": self.ws.listing(), "release": RELEASE,
+                return self._json({"files": self.ws.listing(), "release": RELEASE, "writable": self.ws.writable,
+                                   "demo": getattr(self.server, "demo", False),
                                    "soffice": bool(shutil.which("soffice") or shutil.which("libreoffice"))})
             for prefix in ("/api/raw/", "/api/download/", "/api/pdf/", "/api/sheet/"):
                 if p.startswith(prefix):
@@ -270,38 +350,78 @@ class Handler(BaseHTTPRequestHandler):
         except RuntimeError as exc:
             return self._error(503, str(exc))
 
-    def do_POST(self):
-        if urlparse(self.path).path != "/api/upload":
-            return self._error(404, "not found")
-        if self.headers.get("Sec-Fetch-Site") not in (None, "same-origin"):
-            return self._error(403, "cross-site upload refused")
+    def _post_allowed(self):
+        # same-origin only: browsers send Sec-Fetch-Site, and the custom header forces a CORS preflight
+        if self.headers.get("Sec-Fetch-Site") not in (None, "same-origin") or self.headers.get("X-Hermes") != "1":
+            self._error(403, "cross-site request refused")
+            return False
+        return True
+
+    def _body(self, limit):
         try:
             length = int(self.headers.get("Content-Length") or 0)
         except ValueError:
-            return self._error(400, "bad length")
-        if length <= 0 or length > MAX_UPLOAD:
-            return self._error(413, f"Files up to {MAX_UPLOAD // (1024 * 1024)} MB can be previewed")
-        name = unquote(self.headers.get("X-Filename") or "")
-        body = self.rfile.read(length)
+            length = -1
+        if length <= 0 or length > limit:
+            self._error(413, f"Request must be between 1 byte and {limit // (1024 * 1024)} MB")
+            return None
+        return self.rfile.read(length)
+
+    def do_POST(self):
+        route = urlparse(self.path).path
+        if route not in ("/api/upload", "/api/save", "/api/simulate"):
+            return self._error(404, "not found")
+        if not self._post_allowed():
+            return
         try:
-            ref = self.ws.save_upload(name, body)
-        except ValueError as exc:
+            if route == "/api/upload":
+                body = self._body(MAX_UPLOAD)
+                if body is None:
+                    return
+                return self._json({"ref": self.ws.save_upload(unquote(self.headers.get("X-Filename") or ""), body)})
+            if route == "/api/save":
+                body = self._body(MAX_TEXT_SAVE + 4096)
+                if body is None:
+                    return
+                req = json.loads(body.decode("utf-8"))
+                if not isinstance(req.get("ref"), str) or not isinstance(req.get("text"), str):
+                    return self._error(400, "ref and text are required")
+                return self._json({"ref": self.ws.save_text(req["ref"], req["text"])})
+            if route == "/api/simulate":
+                if not getattr(self.server, "demo", False):
+                    return self._error(404, "not found")
+                return self._json({"ref": self.ws.simulate()})
+        except PermissionError as exc:
+            return self._error(403, str(exc))
+        except (ValueError, json.JSONDecodeError, UnicodeDecodeError) as exc:
             return self._error(400, str(exc))
-        return self._json({"ref": ref})
+        except FileExistsError:
+            return self._error(409, "That version was just created; save again")
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--folder", type=Path, default=HERE / "samples", help="folder whose files are shown (read only)")
-    ap.add_argument("--data", type=Path, default=HERE / ".preview-data", help="uploads and conversion cache")
+    ap.add_argument("--folder", type=Path, help="folder whose files are shown (default: a fresh copy of samples/)")
+    ap.add_argument("--data", type=Path, default=HERE / ".preview-data", help="uploads, demo copy and conversion cache")
+    ap.add_argument("--read-only", action="store_true", help="view only: no edits saved into the folder")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8765)
     a = ap.parse_args(argv)
-    if not a.folder.is_dir():
-        sys.exit(f"Folder not found: {a.folder}")
-    Handler.ws = Workspace(a.folder, a.data)
+    demo = a.folder is None
+    if demo:
+        # the demo always starts from the pristine samples; edits and simulated files go to the copy
+        folder = a.data / "workspace"
+        shutil.rmtree(folder, ignore_errors=True)
+        shutil.copytree(HERE / "samples", folder)
+    else:
+        folder = a.folder
+        if not folder.is_dir():
+            sys.exit(f"Folder not found: {folder}")
+    Handler.ws = Workspace(folder, a.data, writable=not a.read_only)
     httpd = ThreadingHTTPServer((a.host, a.port), Handler)
-    print(f"{RELEASE}: http://{a.host}:{a.port}/  (showing {a.folder})", flush=True)
+    httpd.demo = demo
+    mode = "demo copy of samples/" if demo else str(folder)
+    print(f"{RELEASE}: http://{a.host}:{a.port}/  (showing {mode}{', read-only' if a.read_only else ''})", flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

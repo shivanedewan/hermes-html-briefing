@@ -16,10 +16,22 @@ tbody tr:hover td{background:#fbf6e9}td.f{color:#2f5bd3;font-family:Consolas,mon
 .sheets button{font:inherit;font-size:13px;border:0;background:none;padding:8px 14px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent}
 .sheets button.on{background:#fff;color:#217346;font-weight:650;border-bottom-color:#217346}
 .note{color:#9a6700;font-size:12.5px}
+.editing td[contenteditable]{cursor:text}.editing td[contenteditable]:focus{outline:2px solid #217346;outline-offset:-2px;background:#fff!important;white-space:pre-wrap}
+.editing tbody tr.cur td.rn{background:#d9ecdf;color:#217346}
+.vb.primary{background:#217346;color:#fff;font-weight:600;padding:0 12px}.vb.primary:disabled{opacity:.45}
+.dirty{color:#c4553a;font-weight:600}
 </style>
 <script type="module" src="sheet.js"></script>
 </head><body>
-<div class="vbar"><span class="lbl" id="info">Spreadsheet</span><span class="sp"></span>
+<div class="vbar">
+  <span id="edit-tools" hidden>
+    <button class="vb primary" id="save" disabled title="Save as a new version (Ctrl+S)">Save as new version</button>
+    <button class="vb" id="addrow" title="Add a row at the end">+ Row</button>
+    <button class="vb" id="delrow" title="Delete the row with the cursor">− Row</button>
+    <button class="vb" id="addcol" title="Add a column">+ Column</button>
+    <button class="vb" id="cancel">Cancel</button>
+  </span>
+  <span class="lbl" id="info">Spreadsheet</span><span class="sp"></span>
   <input class="find" id="filter" type="search" placeholder="Filter rows" aria-label="Filter rows"></div>
 <div class="vmain" id="main"><div class="scroll"><table id="grid"></table></div></div>
 <div class="sheets" id="sheets"></div>

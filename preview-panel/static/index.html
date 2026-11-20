@@ -12,6 +12,10 @@
   <header class="topbar">
     <div class="brand"><span class="logo">H</span><strong>Hermes File Workspace</strong><span class="tag">Preview panel · demo</span></div>
     <div class="top-actions">
+      <span class="live" id="live" title="The panel watches the workspace and shows new files as Hermes writes them"><i></i>Live</span>
+      <button class="btn" id="simulate" hidden title="Demo: Hermes writes research.md now; watch it appear and open">
+        <svg viewBox="0 0 24 24"><path d="M7 5v14l11-7z"/></svg>Simulate Hermes writing a file
+      </button>
       <label class="btn ghost" title="Preview one of your own files">
         <input type="file" id="upload" hidden multiple>
         <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
@@ -54,7 +58,7 @@
         </div>
       </div>
       <div class="composer" aria-hidden="true">
-        <div class="fake-input">Ask Hermes to change a file — e.g. "make slide 3 a map"</div>
+        <div class="fake-input">Ask Hermes to change a file — e.g. "make slide 3 a map" <em>(chat not connected in this demo)</em></div>
         <button class="btn primary" disabled>Send</button>
       </div>
       <div class="drop-hint" id="drop-hint">Drop files to preview them</div>
@@ -72,6 +76,8 @@
         <div class="tools">
           <select id="version" title="Version" hidden></select>
           <div class="seg" id="modes" hidden></div>
+          <button class="btn small-btn" id="edit" hidden title="Edit this file (saved as a new version)"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></svg>Edit</button>
+          <button class="icon-btn" id="copy" hidden title="Copy contents"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg></button>
           <a class="icon-btn" id="download" title="Download" href="#"><svg viewBox="0 0 24 24"><path d="M12 4v12m0 0-4-4m4 4 4-4M4 20h16"/></svg></a>
           <a class="icon-btn" id="newwin" title="Open in a new window" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24"><path d="M14 4h6v6m0-6-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
           <button class="icon-btn" id="full" title="Full screen (F)"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
